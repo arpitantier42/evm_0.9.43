@@ -492,8 +492,7 @@ fn new_partial<RuntimeApi, ExecutorDispatch, ChainSelection>(
 			// grandpa::SharedVoterState,
 			babe::BabeWorkerHandle<Block>,
 			Option<Telemetry>,
-			// FrontierBackend<Block>,
-			fc_db::Backend<Block>,
+			FrontierBackend<Block>,
 
 		),
 	>,
@@ -621,7 +620,7 @@ fn new_partial<RuntimeApi, ExecutorDispatch, ChainSelection>(
 						fc_db::sql::BackendConfig::Sqlite(fc_db::sql::SqliteBackendConfig {
 							path: Path::new("sqlite:///")
 								.join(db_path)
-								.join("frontier.db3")
+								.join("frontier.db4")
 								.to_str()
 								.unwrap(),
 							create_if_missing: true,
@@ -710,8 +709,8 @@ pub fn spawn_essential_tasks<B, C, BE>(
 					3,
 					0,
 					SyncStrategy::Parachain,
-					sync.clone(),
-					pubsub_notification_sinks.clone(),
+					sync,
+					pubsub_notification_sinks
 				)
 				.for_each(|()| futures::future::ready(())),
 			);
@@ -730,13 +729,12 @@ pub fn spawn_essential_tasks<B, C, BE>(
 						check_indexed_blocks_interval: Duration::from_secs(60),
 					},
 					fc_mapping_sync::SyncStrategy::Parachain,
-					sync.clone(),
-					pubsub_notification_sinks.clone(),
+					sync,
+					pubsub_notification_sinks
 				),
 			);
 		}
 	}
-
 	// Frontier `EthFilterApi` maintenance.
 	// Manages the pool of user-created Filters.
 	if let Some(filter_pool) = params.filter_pool {
@@ -887,7 +885,7 @@ where
 	let auth_or_collator = role.is_authority() || is_collator.is_collator();
 	let pvf_checker_enabled = role.is_authority() && !is_collator.is_collator();
 	let select_chain = if auth_or_collator {
-		let metrics =
+	let metrics =
 			polkadot_node_subsystem_util::metrics::Metrics::register(prometheus_registry.as_ref())?;
 
 		SelectRelayChain::new_with_overseer(
