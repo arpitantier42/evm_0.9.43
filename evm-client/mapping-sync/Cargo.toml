@@ -1,0 +1,58 @@
+[package]
+name = "fc-mapping-sync"
+version = "2.0.0-dev"
+license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
+description = "Mapping sync logic for Frontier."
+edition = "2021"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+futures = { version = "0.3.28"}
+futures-timer = {version = "3.0.2"}
+log = {  version = "0.4.17"}
+parking_lot = { version = "0.12.1" }
+tokio = { version = "1.28.2", features = ["macros", "sync"], optional = true }
+# Substrate
+sc-client-api = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sc-utils = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sp-api = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43", default-features = false }
+sp-blockchain = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sp-consensus = { version = "0.10.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+# sp-core = { version = "7.0.0", path = "../../primitives/core",optional= true }
+sp-core = { version = "7.0.0", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43", default-features = false,optional=true}
+sp-runtime = { version = "7.0.0", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43", default-features = false }
+# Frontier
+fc-db = { path = "../db" }
+fp-consensus = { version = "2.0.0-dev", path = "../../evm-primitives/consensus" }
+fp-rpc = { version = "3.0.0-dev", path = "../../evm-primitives/rpc" }
+fc-storage = { version= "1.0.0-dev" , path= "../storage" }
+
+[dev-dependencies]
+ethereum = { version = "0.14.0" }
+ethereum-types = { version = "0.14.1" }
+scale-codec = { package = "parity-scale-codec", version = "3.2.1" }
+sqlx = { version = "0.7.0-alpha.3", features = ["runtime-tokio-native-tls", "sqlite"] }
+tempfile = "3.3.0"
+tokio = { version = "1.28.2", features = ["sync"] }
+# Substrate
+sc-block-builder = { version = "0.10.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sc-client-db = { version = "0.10.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43", default-features = false }
+sp-consensus = { version = "0.10.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+
+sp-io = { version = "7.0.0", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43", default-features = false }
+substrate-test-runtime-client = { version = "2.0.0", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+# Frontier
+fp-consensus = { version = "2.0.0-dev", path = "../../evm-primitives/consensus" }
+fp-storage = { version = "2.0.0", path = "../../evm-primitives/storage" }
+frontier-template-runtime = { default-features=false,git="https://github.com/paritytech/frontier.git",branch="polkadot-v1.1.0"}
+
+[features]
+default = ["rocksdb"]
+rocksdb = ["fc-db/rocksdb"]
+sql = [
+	"tokio",
+	"sp-core",
+	"fc-db/sql",
+]

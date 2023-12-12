@@ -1,0 +1,37 @@
+[package]
+name = "polkadot-node-core-pvf"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[dependencies]
+always-assert = "0.1"
+futures = "0.3.21"
+futures-timer = "3.0.2"
+gum = { package = "tracing-gum", path = "../../gum" }
+libc = "0.2.139"
+pin-project = "1.0.9"
+rand = "0.8.5"
+slotmap = "1.0"
+tokio = { version = "1.24.2", features = ["fs", "process"] }
+
+parity-scale-codec = { version = "3.4.0", default-features = false, features = ["derive"] }
+
+polkadot-parachain = { path = "../../../parachain" }
+polkadot-core-primitives = { path = "../../../core-primitives" }
+polkadot-node-metrics = { path = "../../metrics" }
+polkadot-node-primitives = { path = "../../primitives" }
+polkadot-primitives = { path = "../../../primitives" }
+
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sp-wasm-interface = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sp-maybe-compressed-blob = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+sp-tracing = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+
+[build-dependencies]
+substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43" }
+
+[dev-dependencies]
+assert_matches = "1.4.0"
+hex-literal = "0.3.4"
+tempfile = "3.3.0"

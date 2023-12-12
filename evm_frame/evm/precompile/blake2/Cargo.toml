@@ -1,0 +1,31 @@
+[package]
+name = "pallet-evm-precompile-blake2"
+version = "2.0.0-dev"
+license = "Apache-2.0"
+edition = "2021"
+description = "BLAKE2 precompiles for EVM pallet."
+ 
+[dependencies]
+evm = { git = "https://github.com/rust-blockchain/evm", rev = "b7b82c7e1fc57b7449d6dfa6826600de37cc1e65", default-features = false }
+hex = "0.4.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# Substrate
+sp-core = { version = "7.0.0", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.43", default-features = false }
+# Frontier
+fp-evm = { version = "3.0.0-dev", path = "../../../../evm-primitives/evm", default-features = false }
+
+
+
+
+
+
+[dev-dependencies]
+pallet-evm-test-vector-support = { version = "1.0.0-dev", path = "../../test-vector-support",default-features = false }
+
+[features]
+default = ["std"]
+std = [
+	# Frontier
+	"fp-evm/std",
+]
