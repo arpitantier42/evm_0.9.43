@@ -324,7 +324,6 @@ impl PolkadotTestNode {
 		};
 
 		self.send_sudo(call, Sr25519Keyring::Alice, 0).await?;
-
 		// Bypass pvf-checking.
 		let call = ParasCall::add_trusted_validation_code { validation_code };
 		self.send_sudo(call, Sr25519Keyring::Alice, 1).await
