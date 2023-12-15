@@ -16,7 +16,7 @@
 
 //! Polkadot-specific RPCs implementation.
 
-#![warn(missing_docs)]
+
 
 // use std::sync::Arc;
 use std::{collections::BTreeMap, sync::Arc};

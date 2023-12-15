@@ -27,7 +27,7 @@ use frame_support::weights::WeightMeter;
 use pallet_transaction_payment::CurrencyAdapter;
 use runtime_common::{
 	auctions, claims, crowdloan, impl_runtime_weights, impls::DealWithFees, paras_registrar,
-	prod_or_fast, slots,   CurrencyToVote, SlowAdjustingFeeUpdate, elections,BlockHashCount, BlockLength,
+	prod_or_fast, slots,   CurrencyToVote, SlowAdjustingFeeUpdate,BlockHashCount, BlockLength,
 };
 use runtime_parachains::{
 	configuration as parachains_configuration, disputes as parachains_disputes,
@@ -67,21 +67,19 @@ use frame_support::{
 	traits::{
 		fungible::ItemOf,
 		tokens::{nonfungibles_v2::Inspect, GetSalary, PayFromAccount},
-		AsEnsureOriginWithArg, ConstBool, ConstU128, ConstU16, ConstU32, Currency, EitherOfDiverse,
-		EqualPrivilegeOnly, Everything, Imbalance, InstanceFilter, KeyOwnerProofSystem,
-		LockIdentifier, Nothing, OnUnbalanced, U128CurrencyToVote, WithdrawReasons,FindAuthor
+		 ConstU16, ConstU32, EitherOfDiverse,
+		EqualPrivilegeOnly,  Imbalance, InstanceFilter, KeyOwnerProofSystem,
+		LockIdentifier, WithdrawReasons,FindAuthor
 	},
 	weights::{
 		constants::{
 			  WEIGHT_REF_TIME_PER_SECOND,
 		},
-		ConstantMultiplier, IdentityFee,
+		ConstantMultiplier,
 	},
-	ConsensusEngineId,BoundedVec, PalletId, RuntimeDebug,
+	ConsensusEngineId, PalletId, RuntimeDebug,
 };
-use frame_system::{
-	EnsureRoot, EnsureRootWithSuccess, EnsureSigned, EnsureWithSuccess,
-};
+use frame_system::EnsureRoot;
 use pallet_grandpa::{fg_primitives, AuthorityId as GrandpaId};
 use pallet_im_online::sr25519::AuthorityId as ImOnlineId;
 use pallet_session::historical as session_historical;
@@ -111,7 +109,6 @@ use sp_runtime::{
 use fp_rpc::TransactionStatus;
 
 use sp_staking::SessionIndex;
-use sp_runtime::generic::Era;
 
 use sp_std::{marker::PhantomData,cmp::Ordering, collections::btree_map::BTreeMap, prelude::*};
 #[cfg(any(feature = "std", test))]
@@ -220,8 +217,6 @@ impl FeeCalculator for FixedGasPrice {
 
 const BLOCK_GAS_LIMIT: u64 = 75_000_000;
 const MAX_POV_SIZE: u64 = 5 * 1024 * 1024;
-
-
 
 	pub const GAS_PER_SECOND: u64 = 40_000_000;
 
